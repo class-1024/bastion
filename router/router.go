@@ -71,7 +71,7 @@ func Init() *gin.Engine {
 
 func SysRegister(r *gin.RouterGroup) {
 	s := controller.System{}
-	r.GET("/sys/info", s.Info)
+	r.GET("/", s.Info)
 	r.GET("/sys/error", s.Error)
 }
 

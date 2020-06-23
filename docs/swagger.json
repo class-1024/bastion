@@ -16,350 +16,122 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/comment/new": {
+        "/api/stat/admin/create": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "添加评论",
-                "parameters": [
-                    {
-                        "description": "评论",
-                        "name": "comment",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "创建管理员"
             }
         },
-        "/api/comments": {
+        "/api/stat/admin/info": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "评论列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "一页数量",
-                        "name": "pagesize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序",
-                        "name": "order",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "管理员信息"
             }
         },
-        "/api/movie/detail": {
+        "/api/stat/admin/list": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "电影详情",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "电影id",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "所有管理员"
             }
         },
-        "/api/movie/log": {
+        "/api/stat/admin/login": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "添加观看记录",
-                "parameters": [
-                    {
-                        "description": "电影id",
-                        "name": "movie_id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "description": "进度 00:02:32",
-                        "name": "progress",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "管理员登录"
             }
         },
-        "/api/movie/logs": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "观看记录列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "一页数量",
-                        "name": "pagesize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序",
-                        "name": "order",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/movie/new": {
+        "/api/stat/admin/update": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "添加电影",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "管理员信息更新"
             }
         },
-        "/api/movies": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "电影列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "一页数量",
-                        "name": "pagesize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序",
-                        "name": "order",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/piaofang": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "票房数据",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/upload": {
+        "/api/stat/behavior": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "上传文件",
-                "parameters": [
-                    {
-                        "type": "file",
-                        "description": "上传文件",
-                        "name": "file",
-                        "in": "formData",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "上报打点"
             }
         },
-        "/api/user/info": {
+        "/api/stat/behavior/:id": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "用户信息",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "根据id查找打点"
             }
         },
-        "/api/users": {
+        "/api/stat/behaviors": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "用户列表",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "一页数量",
-                        "name": "pagesize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序",
-                        "name": "order",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "查找所有打点"
             }
         },
-        "/api/weapp/decryptUserInfo": {
+        "/api/stat/device/:uid": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "根据id查找错误"
+            }
+        },
+        "/api/stat/error/:id": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "根据id查找错误"
+            }
+        },
+        "/api/stat/errors": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查找所有错误"
+            },
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "小程序用户信息解密",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "errlock上报"
             }
         },
-        "/api/weapp/login": {
+        "/api/stat/project": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "code登录",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "wx.login 获取的 code",
-                        "name": "code",
-                        "in": "query",
-                        "required": true
-                    }
+                "summary": "创建项目"
+            }
+        },
+        "/api/stat/project/:id": {
+            "get": {
+                "produces": [
+                    "application/json"
                 ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "查找项目"
+            }
+        },
+        "/api/stat/projects": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查找所有项目"
             }
         },
         "/go/sys/info": {
@@ -377,122 +149,18 @@
                     }
                 }
             }
-        },
-        "/stat/admin/create": {
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "创建管理员"
-            }
-        },
-        "/stat/admin/info": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "管理员信息"
-            }
-        },
-        "/stat/admin/list": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "所有管理员"
-            }
-        },
-        "/stat/admin/login": {
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "管理员登录"
-            }
-        },
-        "/stat/admin/update": {
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "管理员信息更新"
-            }
-        },
-        "/stat/behavior": {
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "上报打点"
-            }
-        },
-        "/stat/behavior/:id": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "根据id查找打点"
-            }
-        },
-        "/stat/behaviors": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "查找所有打点"
-            }
-        },
-        "/stat/error/:id": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "根据id查找错误"
-            }
-        },
-        "/stat/errors": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "查找所有错误"
-            },
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "上报错误"
-            }
-        },
-        "/stat/project": {
-            "post": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "创建项目"
-            }
-        },
-        "/stat/project/:id": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "查找项目"
-            }
-        },
-        "/stat/projects": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "查找所有项目"
-            }
         }
     },
     "definitions": {
         "response.Response": {
             "type": "object",
             "properties": {
+                "_trace_id": {
+                    "type": "object"
+                },
+                "_ts": {
+                    "type": "integer"
+                },
                 "code": {
                     "type": "integer"
                 },
@@ -507,9 +175,6 @@
                 },
                 "status": {
                     "type": "string"
-                },
-                "trace_id": {
-                    "type": "object"
                 }
             }
         }
