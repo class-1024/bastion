@@ -1,9 +1,9 @@
 #!/bin/bash
 
-DEJA_WORK_DIR=$(pwd)
-export DEJA=${DEJA_WORK_DIR}
+BASTION_WORK_DIR=$(pwd)
+export BASTION=${BASTION_WORK_DIR}
 
-ID=$(ps -ef | grep deja | grep -v grep | grep -v PPID | awk '{ print $2}')
+ID=$(ps -ef | grep bastion | grep -v grep | grep -v PPID | awk '{ print $2}')
 echo "old pid: $ID"
 
 echo "-------1--------"
@@ -14,9 +14,9 @@ done
 echo "-------2--------"
 
 echo "restart..."
-chmod +x deja
-nohup ./deja -conf "./conf/prod.toml" >out.log 2>&1 &
+chmod +x bastion
+nohup ./bastion -conf "./secret.toml" >out.log 2>&1 &
 
 echo "new pid："
-ID=$(ps -ef | grep deja | grep -v grep | grep -v PPID | awk '{ print $2}')
+ID=$(ps -ef | grep bastion | grep -v grep | grep -v PPID | awk '{ print $2}')
 echo "$ID"

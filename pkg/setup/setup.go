@@ -11,13 +11,13 @@ import (
 // 测试
 func InitTest() {
 	var relPath string
-	relPath = "./conf/test.toml"
+	relPath = "./secret.dev.toml"
 	Ready(relPath)
 }
 
 func Boot() {
 	var relPath string
-	flag.StringVar(&relPath, "conf", "./conf/dev.toml", "请输入配置文件路径")
+	flag.StringVar(&relPath, "conf", "./secret_dev.toml", "请输入配置文件路径")
 	flag.Parse()
 	Ready(relPath)
 }

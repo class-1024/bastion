@@ -2,7 +2,7 @@ main
 gin_scaffold.inf.log
 gin_scaffold.wf.log
 go.sum
-deja
+bastion
 out.log
 logs
 api
@@ -13,4 +13,8 @@ dist
 test
 
 tools/model
+
+
 secret.toml
+secret_dev.toml
+secret_prod.toml

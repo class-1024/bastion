@@ -66,14 +66,15 @@ jobs:
           envs: TIME,OSS_URL
           script: |
             cd ~
-            mkdir -p deja
-            cd deja
+            mkdir -p bastion
+            cd bastion
             ls -la
             wget $OSS_URL/deja/$TIME.tar.gz
             tar -zxvf $TIME.tar.gz
             rm -rf $TIME.tar.gz
             cd $TIME
             ls
+            wget $OSS_URL/secret.toml
             sh deploy.sh
 
       - name: Dingding notify

@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "personal projects",
-        "title": "deja server",
+        "title": "bastion server",
         "termsOfService": "https://github.com/nanzm",
         "contact": {
             "name": "nan",

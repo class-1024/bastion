@@ -39,9 +39,9 @@ func GetAbsFile(relPath string) (string, error) {
 }
 
 func GetAbsFileWithEnv(relPath string) string {
-	env := os.Getenv("DEJA")
+	env := os.Getenv("BASTION")
 	if env == "" {
-		panic("env DEJA not found")
+		panic("env BASTION not found")
 	}
 	configPath := filepath.Join(env, relPath)
 	return configPath

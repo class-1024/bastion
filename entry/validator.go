@@ -150,3 +150,15 @@ func (p *ErrorsQuery) BindingValidParams(ctx *gin.Context) error {
 	}
 	return nil
 }
+
+func CheckPagination(c *gin.Context) (*Pagination, error) {
+	p := Pagination{
+		PageSize: 50,
+		Page:     1,
+	}
+	err := p.BindingValidParams(c)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
+}

@@ -99,7 +99,7 @@ func (s *Stat) AdminInfo(c *gin.Context) {
 // @Produce json
 // @Router /api/stat/admin/list [get]
 func (s *Stat) AdminList(c *gin.Context) {
-	p, err := CheckPagination(c)
+	p, err := entry.CheckPagination(c)
 	if err != nil {
 		response.Fail(c, errno.InvalidParams, err)
 		return
@@ -136,7 +136,7 @@ func (s *Stat) CreateProject(c *gin.Context) {
 // @Produce json
 // @Router /api/stat/projects [get]
 func (s *Stat) FindAllProjects(c *gin.Context) {
-	p, err := CheckPagination(c)
+	p, err := entry.CheckPagination(c)
 	if err != nil {
 		response.Fail(c, errno.InvalidParams, err)
 		return
@@ -231,7 +231,7 @@ func (s *Stat) ImgCreateError(c *gin.Context) {
 // @Produce json
 // @Router /api/stat/errors [get]
 func (s *Stat) FindErrorsWithParams(c *gin.Context) {
-	p, err := CheckPagination(c)
+	p, err := entry.CheckPagination(c)
 	if err != nil {
 		response.Fail(c, errno.InvalidParams, err)
 		return
@@ -283,7 +283,7 @@ func (s *Stat) FindDeviceByUid(c *gin.Context) {
 }
 
 func (s *Stat) FindAllDevice(c *gin.Context) {
-	p, err := CheckPagination(c)
+	p, err := entry.CheckPagination(c)
 	if err != nil {
 		response.Fail(c, errno.InvalidParams, err)
 		return

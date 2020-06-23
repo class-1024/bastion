@@ -19,12 +19,12 @@ Data Type
 
 ### 构建
 ```shell script
-go build -o deja main.go
+go build -o bastion main.go
 
-./deja
+./bastion
 
 
-ps -ef | grep deja 
+ps -ef | grep bastion 
 
 kill -9 
 

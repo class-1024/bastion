@@ -1,9 +1,9 @@
 #!/bin/bash
 
 workDir=$(pwd)
-output="deja"
+output="bastion"
 
-export DEJA=${workDir}
+export BASTION=${workDir}
 export GOPROXY=https://goproxy.io,direct
 
 go version
@@ -19,7 +19,6 @@ CGO_ENABLED=0 go build -o $output main.go
 rm -rf dist
 mkdir -p dist
 
-cp -r conf dist/
 cp -r web dist/
 cp -r $output dist/
 cp -r deploy.sh dist/

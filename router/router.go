@@ -57,17 +57,9 @@ func Init() *gin.Engine {
 	// pprof
 	pprof.Register(r)
 
-	// 页面
-	page := r.Group("/")
-	PageRegister(page)
-
 	// system
 	system := r.Group("/")
 	SysRegister(system)
-
-	// api
-	api := r.Group("/")
-	ApiRegister(api)
 
 	// 统计
 	stat := r.Group("/")
@@ -76,38 +68,6 @@ func Init() *gin.Engine {
 	return r
 }
 
-func ApiRegister(r *gin.RouterGroup) {
-	api := controller.Api{}
-
-	r.GET("/api/piaofang", api.BoxOffice)
-
-	r.GET("/api/users", api.GetUsers)
-	r.GET("/api/user/info", middleware.MiAppAuth(), api.GetUserInfo)
-	r.POST("/api/weapp/login", api.CodeLogin)
-	r.POST("/api/weapp/decryptUserInfo", api.DecryptUserInfo)
-
-	r.GET("/api/movies", api.GetMovies)
-	r.GET("/api/movie/detail", api.GetMovieDetail)
-	r.POST("/api/movie/new", api.CreateMovie)
-
-	r.GET("/api/movie/logs", api.GetWatchLogs)
-	r.POST("/api/movie/log", middleware.MiAppAuth(), api.CreateWatchLog)
-
-	r.GET("/api/comments", api.GetComments)
-	r.POST("/api/comment/new", middleware.MiAppAuth(), api.CreateComments)
-
-	r.POST("/api/upload", api.Upload)
-	r.POST("/api/error", api.Noop)
-}
-
-func PageRegister(r *gin.RouterGroup) {
-	p := controller.Page{}
-	r.GET("/", p.Docs)
-	r.GET("/blog/:id", p.DocContent)
-	r.GET("/movie/stat", p.Stat)
-	r.GET("/movie", p.MovieForm)
-	r.GET("/error", p.Errors)
-}
 
 func SysRegister(r *gin.RouterGroup) {
 	s := controller.System{}
@@ -118,8 +78,7 @@ func SysRegister(r *gin.RouterGroup) {
 func StatRegister(r *gin.RouterGroup) {
 	s := controller.Stat{}
 
-	config := cors.DefaultConfig()
-	r.Use(cors.New(config))
+	r.Use(cors.Default())
 
 	r.POST("/api/stat/admin/login", s.AdminLogin)
 	r.POST("/api/stat/admin/create", s.AdminCreate)
