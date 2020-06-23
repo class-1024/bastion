@@ -1,4 +1,4 @@
-name: deja build
+name: build
 
 on:
   push:
@@ -46,14 +46,14 @@ jobs:
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
-      - name: upload
+      - name: Upload
         env:
           TIME: ${{ steps.time.outputs.time }}
         run: |
           echo $TIME
           ossutil cp -r $TIME.tar.gz oss://transfer-res/deja/
 
-      - name: ssh aliyun
+      - name: Ssh aliyun deploy
         uses: appleboy/ssh-action@master
         env:
           TIME: ${{ steps.time.outputs.time }}
@@ -76,19 +76,7 @@ jobs:
             ls
             sh deploy.sh
 
-      - name: Send feishu ci status
-        uses: foxundermoon/feishu-action@v1
-        with:
-          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
-          title: notice
-          text: |
-            from github action test
-            repository: ${{ github.repository }}
-            committer: ${{ github.actor }}
-            compare: ${{ github.event.compare }}
-            job status: ${{ job.status }}
-
-      - name: Send dingding notify
+      - name: Dingding notify
         uses: zcong1993/actions-ding@master
         with:
           dingToken: ${{ secrets.DING_TOKEN }}
@@ -96,6 +84,6 @@ jobs:
             {
               "msgtype": "text",
               "text": {
-                  "content": "[deploy] status:${{ job.status }} actor:${{ github.actor }}"
+                  "content": "[deploy] ${{ github.repository }} ———> status:${{ job.status }} ————> actor:${{ github.actor }}"
               }
             }
