@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/web/public/css/normalize.css">
+    <link rel="stylesheet" href="/web/public/css/base.css">
+    <link rel="stylesheet" href="/web/public/css/content.css">
+    <link rel="stylesheet" href="/web/public/css/table.css">
+
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/dayjs/1.8.14/dayjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/locale/zh-cn.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="table-container">
+        <h1 v-if="link">过滤：${link}</h1>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>appid</th>
+                <th>tag</th>
+                <th>path</th>
+                <th>error_msg</th>
+                <th>error_string</th>
+                <th>uid</th>
+                <th>created_at</th>
+            </tr>
+            <tr v-for="item in errors" :key="item.id">
+                <td class="t1"><code>${item.id}</code></td>
+                <td class="t2"><a :href="'?appid=' + item.appid">${item.appid}</a></td>
+                <td class="t2"><a :href="'?tag=' + item.tag">${item.tag}</a></td>
+
+                <td class="t3"><code>${item.path}</code></td>
+                <td class="t4"><a :href="'?error_msg=' + item.error_msg">${item.error_msg}</a></td>
+                <td class="t5"><code>${item.error_string}</code></td>
+
+                <td class="t6"><a :href="'?uid=' + item.uid">${item.uid}</a></td>
+                <td class="t7"><a :href="'?created_at=' + item.created_at">${item.created_at | fmtRelativeTime}</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+	new Vue({
+		delimiters: ['${', '}'],
+		el: '#app',
+		data: function () {
+			return {
+				today: dayjs(),
+
+				link: window.location.search.slice(1),
+
+				pagesize: '',
+				page: '',
+				appid: '',
+				tag: '',
+				uid: '',
+				created_at: '',
+
+
+				errors: [],
+			}
+		},
+		mounted() {
+			this.getParams()
+			this.getList()
+		},
+		methods: {
+			getParams() {
+				var searchParams = new URLSearchParams(window.location.search)
+
+				var appid = searchParams.get("appid")
+				var pagesize = searchParams.get("pagesize")
+				var page = searchParams.get("page")
+				var tag = searchParams.get("tag")
+				var uid = searchParams.get("uid")
+				var error_msg = searchParams.get("error_msg")
+				var created_at = searchParams.get("created_at")
+
+				this.appid = appid
+				this.pagesize = pagesize
+				this.page = page
+				this.tag = tag
+				this.error_msg = error_msg
+				this.uid = uid
+				this.created_at = created_at
+			},
+			getList() {
+				let formVal = {
+					appid: this.appid,
+					pagesize: this.pagesize,
+					page: this.page,
+					tag: this.tag,
+					uid: this.uid,
+					error_msg: this.error_msg,
+					created_at: this.created_at,
+				}
+				axios.get('/api/stat/errors', {params: formVal}).then((res) => {
+					if (res.data.status === 'ok') this.errors = res.data.result.rows
+				})
+			},
+		},
+		filters: {
+			fmtTime(val) {
+				if (val) {
+					return dayjs(val).format('YYYY年MM月DD日 HH:mm:ss')
+				}
+				return ''
+			},
+			fmtRelativeTime(val) {
+				if (val) {
+					return moment(val).fromNow()
+				}
+				return ''
+			},
+		},
+	})
+</script>
+</body>
+</html>
+
+
+

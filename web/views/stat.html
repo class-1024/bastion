@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>统计</title>
+
+    <link rel="stylesheet" href="/web/public/css/normalize.css">
+    <link rel="stylesheet" href="/web/public/css/base.css">
+    <link rel="stylesheet" href="/web/public/css/content.css">
+
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/element-ui/2.8.2/index.js"></script>
+    <script src="https://cdn.bootcss.com/dayjs/1.8.14/dayjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/locale/zh-cn.js"></script>
+
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .table-container table {
+            width: 500px;
+        }
+
+        .table-container th {
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .table-container td {
+            text-align: center;
+        }
+
+        .table-container td img {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="table-container">
+        <div>
+            <h1>用户</h1>
+            <table border="1">
+                <tr>
+                    <th>id</th>
+                    <th>avatar_url</th>
+                    <th>nick_name</th>
+                    <th>province</th>
+                    <th>last_login</th>
+                    <th>created_at</th>
+                </tr>
+                <tr v-for="item in userList" :key="item.id">
+                    <td>${item.id}</td>
+                    <td><img :src="item.avatar_url" width="30" alt=""></td>
+                    <td>${item.nick_name}</td>
+                    <td>${item.province}</td>
+                    <td>${item.last_login | fmtRelativeTime}</td>
+                    <td>${item.created_at | fmtRelativeTime}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h1>进度</h1>
+            <table border="1">
+                <tr>
+                    <th>id</th>
+                    <th>avatar_url</th>
+                    <th>nick_name</th>
+                    <th>movie</th>
+                    <th>progress</th>
+                    <th>updated_at</th>
+                </tr>
+                <tr v-for="item in logList" :key="item.id">
+                    <td>${item.user.id}</td>
+                    <td><img :src="item.user.avatar_url" width="30" alt=""></td>
+                    <td>${item.user.nick_name}</td>
+                    <td>${item.movie.title}</td>
+                    <td>${item.progress}</td>
+                    <td>${item.updated_at | fmtRelativeTime}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h1>发言</h1>
+            <table border="1">
+                <tr>
+                    <th>id</th>
+                    <th>avatar_url</th>
+                    <th>nick_name</th>
+                    <th>content</th>
+                    <th>updated_at</th>
+                </tr>
+                <tr v-for="item in comments" :key="item.id">
+                    <td>${item.user.id}</td>
+                    <td><img :src="item.user.avatar_url" width="30" alt=""></td>
+                    <td>${item.user.nick_name}</td>
+                    <td>${item.content}</td>
+                    <td>${item.updated_at | fmtRelativeTime}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        delimiters: ['${', '}'],
+        el: '#app',
+        data: function () {
+            return {
+                today: dayjs(),
+                userList: [],
+                logList: [],
+                comments: [],
+            };
+        },
+        mounted() {
+            this.getUser();
+            this.getLog();
+            this.getComments();
+        },
+        methods: {
+            getUser() {
+                axios.get('/api/users', {}).then((res) => {
+                    if (res.data.success) this.userList = res.data.result.rows;
+                });
+            },
+            getLog() {
+                axios.get('/api/movie/logs', {}).then((res) => {
+                    if (res.data.success) this.logList = res.data.result.rows;
+                });
+            },
+            getComments() {
+                axios.get('/api/comments', {}).then((res) => {
+                    if (res.data.success) this.comments = res.data.result.rows;
+                });
+            },
+        },
+        filters: {
+            fmtTime(val) {
+                if (val) {
+                    return dayjs(val).format('YYYY年MM月DD日 HH:mm:ss');
+                }
+                return '';
+            },
+            fmtRelativeTime(val) {
+                if (val) {
+                    return moment(val).fromNow();
+                }
+                return '';
+            },
+        },
+    });
+</script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,28 @@
+.archive {
+    max-width: 550px;
+    margin: 0 auto;
+    padding-top: 3em;
+}
+.archive .post-item {
+    position: relative;
+    padding-left: 150px;
+    margin-bottom: 5px;
+}
+.archive .post-time,
+.archive .post-title-link {
+    font-size: 1rem;
+}
+.archive .post-title-link {
+    display: block;
+    color: #42b983;
+    word-break: break-all;
+}
+.archive .post-title-link:hover {
+    border-bottom: 0;
+    color: #267B54;
+}
+.archive .post-info {
+    position: absolute;
+    left: 0;
+    color: #7f8c8d;
+}

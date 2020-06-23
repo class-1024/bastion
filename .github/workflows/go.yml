@@ -1,0 +1,101 @@
+name: deja build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.0
+        with:
+          timeZone: 8
+          format: "YYYYMMDDHHmmss"
+
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Get dependencies
+        run: |
+          go get -v -t -d ./...
+
+      - name: Build
+        env:
+          TIME: ${{ steps.time.outputs.time }}
+        run: |
+          sh build.sh
+          cp -r dist/ $TIME/
+          tar -zcvf $TIME.tar.gz $TIME
+
+      - name: setup ossutil
+        uses: yizhoumo/setup-ossutil@v1
+        with:
+          endpoint: ${{ secrets.OSS_ENDPOINT }}
+          access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+
+      - name: upload
+        env:
+          TIME: ${{ steps.time.outputs.time }}
+        run: |
+          echo $TIME
+          ossutil cp -r $TIME.tar.gz oss://transfer-res/deja/
+
+      - name: ssh aliyun
+        uses: appleboy/ssh-action@master
+        env:
+          TIME: ${{ steps.time.outputs.time }}
+          OSS_URL: ${{ secrets.OSS_URL }}
+        with:
+          host: ${{ secrets.ECS_HOST }}
+          username: ${{ secrets.ECS_USERNAME }}
+          password: ${{ secrets.ECS_PASSWORD }}
+          port: ${{ secrets.ECS_PORT }}
+          envs: TIME,OSS_URL
+          script: |
+            cd ~
+            mkdir -p deja
+            cd deja
+            ls -la
+            wget $OSS_URL/deja/$TIME.tar.gz
+            tar -zxvf $TIME.tar.gz
+            rm -rf $TIME.tar.gz
+            cd $TIME
+            ls
+            sh deploy.sh
+
+      - name: Send feishu ci status
+        uses: foxundermoon/feishu-action@v1
+        with:
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          title: notice
+          text: |
+            from github action test
+            repository: ${{ github.repository }}
+            committer: ${{ github.actor }}
+            compare: ${{ github.event.compare }}
+            job status: ${{ job.status }}
+
+      - name: Send dingding notify
+        uses: zcong1993/actions-ding@master
+        with:
+          dingToken: ${{ secrets.DING_TOKEN }}
+          body: |
+            {
+              "msgtype": "text",
+              "text": {
+                  "content": "[deploy] status:${{ job.status }} actor:${{ github.actor }}"
+              }
+            }

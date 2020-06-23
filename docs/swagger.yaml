@@ -1,0 +1,329 @@
+definitions:
+  response.Response:
+    properties:
+      code:
+        type: integer
+      error:
+        type: object
+      message:
+        type: string
+      result:
+        type: object
+      status:
+        type: string
+      trace_id:
+        type: object
+    type: object
+info:
+  contact:
+    email: msg@nancode.cn
+    name: nan
+    url: https://nancode.cn
+  description: personal projects
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://github.com/nanzm
+  title: deja server
+  version: "1.0"
+paths:
+  /api/comment/new:
+    post:
+      parameters:
+      - description: 评论
+        in: body
+        name: comment
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 添加评论
+  /api/comments:
+    get:
+      parameters:
+      - description: 一页数量
+        in: query
+        name: pagesize
+        type: integer
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 排序
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 评论列表
+  /api/movie/detail:
+    get:
+      parameters:
+      - description: 电影id
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 电影详情
+  /api/movie/log:
+    post:
+      parameters:
+      - description: 电影id
+        in: body
+        name: movie_id
+        required: true
+        schema:
+          type: integer
+      - description: 进度 00:02:32
+        in: body
+        name: progress
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 添加观看记录
+  /api/movie/logs:
+    get:
+      parameters:
+      - description: 一页数量
+        in: query
+        name: pagesize
+        type: integer
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 排序
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 观看记录列表
+  /api/movie/new:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 添加电影
+  /api/movies:
+    get:
+      parameters:
+      - description: 一页数量
+        in: query
+        name: pagesize
+        type: integer
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 排序
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 电影列表
+  /api/piaofang:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 票房数据
+  /api/upload:
+    post:
+      parameters:
+      - description: 上传文件
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 上传文件
+  /api/user/info:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 用户信息
+  /api/users:
+    get:
+      parameters:
+      - description: 一页数量
+        in: query
+        name: pagesize
+        type: integer
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 排序
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 用户列表
+  /api/weapp/decryptUserInfo:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 小程序用户信息解密
+  /api/weapp/login:
+    post:
+      parameters:
+      - description: wx.login 获取的 code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: code登录
+  /go/sys/info:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 系统信息
+  /stat/admin/create:
+    post:
+      produces:
+      - application/json
+      summary: 创建管理员
+  /stat/admin/info:
+    get:
+      produces:
+      - application/json
+      summary: 管理员信息
+  /stat/admin/list:
+    get:
+      produces:
+      - application/json
+      summary: 所有管理员
+  /stat/admin/login:
+    post:
+      produces:
+      - application/json
+      summary: 管理员登录
+  /stat/admin/update:
+    post:
+      produces:
+      - application/json
+      summary: 管理员信息更新
+  /stat/behavior:
+    post:
+      produces:
+      - application/json
+      summary: 上报打点
+  /stat/behavior/:id:
+    get:
+      produces:
+      - application/json
+      summary: 根据id查找打点
+  /stat/behaviors:
+    get:
+      produces:
+      - application/json
+      summary: 查找所有打点
+  /stat/error/:id:
+    get:
+      produces:
+      - application/json
+      summary: 根据id查找错误
+  /stat/errors:
+    get:
+      produces:
+      - application/json
+      summary: 查找所有错误
+    post:
+      produces:
+      - application/json
+      summary: 上报错误
+  /stat/project:
+    post:
+      produces:
+      - application/json
+      summary: 创建项目
+  /stat/project/:id:
+    get:
+      produces:
+      - application/json
+      summary: 查找项目
+  /stat/projects:
+    get:
+      produces:
+      - application/json
+      summary: 查找所有项目
+swagger: "2.0"

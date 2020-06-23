@@ -1,0 +1,16 @@
+main
+gin_scaffold.inf.log
+gin_scaffold.wf.log
+go.sum
+deja
+out.log
+logs
+api
+test.json
+demo.json
+nodemon.json
+dist
+test
+
+tools/model
+secret.toml
